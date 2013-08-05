@@ -3,10 +3,17 @@
 
 #include "cocos2d.h"
 #include "Spaceship.h"
+#include "Koala.h"
+
+using namespace cocos2d;
 
 class GameLayer : public cocos2d::CCLayer {
 	Spaceship* spaceShip;
+	Koala* koala;
 	CCSize screenSize;
+    CCSprite *bg;
+    CCTMXTiledMap *_tileMap;
+    CCTMXLayer *_background;
 
 public:
     virtual bool init();  
