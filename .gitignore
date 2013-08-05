@@ -1,9 +1,10 @@
 *.xcodeproj/
 Device-Debug
 
+*.ipch
 *.opensdf
 *.sdf
-*.ipch
+*.suo
 ipch
 Debug.win32
 Release.win32
