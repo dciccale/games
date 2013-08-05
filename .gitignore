@@ -1,6 +1,6 @@
 *.xcodeproj/
 Device-Debug
-
+*.cache
 *.ipch
 *.opensdf
 *.sdf
