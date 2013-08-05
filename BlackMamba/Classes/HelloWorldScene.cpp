@@ -2,6 +2,9 @@
 
 USING_NS_CC;
 
+// TODO: rename this to GameLayer
+
+
 CCScene* HelloWorld::scene()
 {
     // 'scene' is an autorelease object
