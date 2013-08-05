@@ -24,10 +24,12 @@ bool GameLayer::init() {
 
     screenSize = CCDirector::sharedDirector()->getWinSize();
 
-	const char* texture = "Spaceship.png";
+	const char *texture = "Spaceship.png";
     
 	spaceShip = Spaceship::create(texture);
 	spaceShip->setPosition(ccp(screenSize.width / 2, screenSize.height / 2));
+
+
     
 	// later we'll use this...
 	// int randX = 1 + rand() % 4;
@@ -38,6 +40,7 @@ bool GameLayer::init() {
 
 
 	this->setTouchEnabled(true);
+	this->setKeypadEnabled(true);
 	this->schedule(schedule_selector(GameLayer::update));      
     
     return true;
@@ -47,42 +50,43 @@ void GameLayer::update(float dt) {
 
 }
 
-void GameLayer::ccTouchesBegan(CCSet* pTouches, CCEvent* pEvent) {
+void GameLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent) {
 	CCSetIterator it;
-	CCTouch* touch;
+	CCTouch *touch;
 	CCPoint tap;
 	float scale;
-	float rotation;
-	CCActionManager* mgr = CCDirector::sharedDirector()->getActionManager();
-	
-
+	CCActionManager *mgr = CCDirector::sharedDirector()->getActionManager();
 
 	for (it = pTouches->begin(); it != pTouches->end(); it++) {
 		touch = (CCTouch*) (*it);
+
 		if (touch) {
 			tap = touch->getLocation();
 			
-			int randX = 1 + rand() % 360;
-			int randY = 1 + rand() % 3;
+			/*if (spaceShip->boundingBox().containsPoint(tap)) {
 
-			if (spaceShip->boundingBox().containsPoint(tap)) {
 				scale = spaceShip->getScale();
-				rotation = spaceShip->getRotationX();
-				CCScaleTo* scaleTo;
+				CCScaleTo *scaleTo;
 
 				if (scale > 1) {
 					scaleTo = CCScaleTo::create(0.2f, 1, 1);
 					mgr->addAction(scaleTo, spaceShip, true);
-					// spaceShip->runAction(scaleTo);
 				} else {
-					scaleTo = CCScaleTo::create(0.2f, 3, 3);
+					scaleTo = CCScaleTo::create(0.2f, 1.3, 1.3);
 					mgr->addAction(scaleTo, spaceShip, true);
-					// spaceShip->runAction(scaleTo);
 				}
-				
-				mgr->resumeTarget(spaceShip);
-			}
+			}*/
+
+			CCMoveTo *moveTo = CCMoveTo::create(0.5f, tap);
+			mgr->addAction(moveTo, spaceShip, true);
+
+			mgr->resumeTarget(spaceShip);
+
 		}
 	}
 }
 
+
+void GameLayer::ccTouchesEnd(CCSet *pTouches, CCEvent *pEvent) { 
+
+}
