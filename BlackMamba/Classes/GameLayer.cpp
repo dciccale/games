@@ -6,11 +6,20 @@ USING_NS_CC;
 
 CCScene* GameLayer::scene() {
     // 'scene' is an autorelease object
-    CCScene *scene = CCScene::create();    
+    CCScene *scene = CCScene::create();
+    
+    // gradient layer
+    CCLayerGradient *layerGrad = new CCLayerGradient();
+    layerGrad->initWithColor(ccc4(192,239,254,255), ccc4(255,255,255,255));
+    scene->addChild(layerGrad);
+    
     // 'layer' is an autorelease object
     GameLayer *layer = GameLayer::create();
+    
     // add layer as a child to scene
     scene->addChild(layer);
+
+    
     // return the scene
     return scene;
 }
@@ -37,10 +46,20 @@ bool GameLayer::init() {
 	// spaceShip->setVelocity(ccp(randX, randY));
     
 	this->addChild(spaceShip);
-
+    
+    // background
+    _tileMap = new CCTMXTiledMap();
+    _tileMap->initWithTMXFile("background.tmx");
+    _background = _tileMap->layerNamed("Background");
+    this->addChild(_tileMap);
+    
+    // ant    
+	koala = Koala::create("kuwalio_stand.png");
+	koala->setPosition(ccp(screenSize.width-40, 30));
+  this->addChild(koala);
 
 	this->setTouchEnabled(true);
-	this->setKeypadEnabled(true);
+    
 	this->schedule(schedule_selector(GameLayer::update));      
     
     return true;
