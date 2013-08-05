@@ -14,7 +14,7 @@ public:
     CREATE_FUNC(GameLayer);
 
 	// event listeners
-	// virtual void ccTouchesBegan(CCSet* pTouches, CCEvent* event);
+	virtual void ccTouchesBegan(CCSet* pTouches, CCEvent* event);
 
 	// custom methods
 	void update(float dt);

@@ -16,6 +16,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     AppDelegate app;
     CCEGLView* eglView = CCEGLView::sharedOpenGLView();
     eglView->setViewName("BlackMamba");
-    eglView->setFrameSize(480, 320);
+    eglView->setFrameSize(480, 640);
     return CCApplication::sharedApplication()->run();
 }
