@@ -53,7 +53,7 @@ bool GameLayer::init() {
     _background = _tileMap->layerNamed("Background");
     this->addChild(_tileMap);
     
-    // ant    
+    // koala    
 	koala = Koala::create("kuwalio_stand.png");
 	koala->setPosition(ccp(screenSize.width-40, 30));
   this->addChild(koala);
