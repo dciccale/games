@@ -4,16 +4,12 @@ USING_NS_CC;
 
 CCScene* HelloWorld::scene()
 {
-    // 'scene' is an autorelease object
     CCScene *scene = CCScene::create();
     
-    // 'layer' is an autorelease object
     HelloWorld *layer = HelloWorld::create();
-
-    // add layer as a child to scene
+    
     scene->addChild(layer);
-
-    // return the scene
+    
     return scene;
 }
 
@@ -35,7 +31,7 @@ bool HelloWorld::init()
                                         "button_pressed.png",
                                         this,
                                         menu_selector(HelloWorld::menuCloseCallback));
-	closeItem->setPosition(ccp(screenSize.width/2, screenSize.height/2));
+	closeItem->setPosition(ccp(screenSize.width/2, screenSize.height/2 - 20));
 
     // create menu, it's an autorelease object
     CCMenu* menu = CCMenu::create(closeItem, NULL);
@@ -43,8 +39,8 @@ bool HelloWorld::init()
     this->addChild(menu, 1);
     
 
-    CCLabelTTF *label = CCLabelTTF::create("hey wanna hear the most annoying sound in the world?", "Thonburi", 34, CCSizeMake(screenSize.width-40, 80), kCCTextAlignmentCenter);
-    label->setPosition(ccp(screenSize.width / 2, screenSize.height - 60));
+    CCLabelTTF *label = CCLabelTTF::create("hey wanna hear the most annoying sound in the world?", "Thonburi", 34, CCSizeMake(screenSize.width-40, screenSize.height/2), kCCTextAlignmentCenter, kCCVerticalTextAlignmentTop);
+    label->setPosition(ccp(screenSize.width / 2, screenSize.height - (label->getDimensions().height/2) - 20));
     this->addChild(label, 1);
 
     // play loop sound
