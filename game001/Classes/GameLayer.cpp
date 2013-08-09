@@ -24,8 +24,6 @@ bool GameLayer::init()
     }
     
     CCSize screenSize = CCDirector::sharedDirector()->getWinSize();
-    CCScheduler *_scheduler = CCDirector::sharedDirector()->getScheduler();
-    CocosDenshion::SimpleAudioEngine *_sharedEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
     
     /// arcade button
     CCMenuItemImage *closeItem = CCMenuItemImage::create(
