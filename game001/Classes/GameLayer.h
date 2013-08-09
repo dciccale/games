@@ -17,8 +17,9 @@ public:
 
     static CCScene* scene();
     
-    void playBgMusic();
     void initScoreLayer();
+    
+    void playBgMusic();
     
     void menuCloseCallback(CCObject* pSender);
     
