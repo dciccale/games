@@ -1,4 +1,3 @@
-*.xcodeproj/
 Device-Debug
 *.cache
 *.ipch
