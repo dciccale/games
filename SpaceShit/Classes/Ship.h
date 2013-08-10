@@ -6,9 +6,9 @@
 using namespace cocos2d;
 
 // TODO: next time instead of extending CCSprite
-// use CCSprite::setUserData 
+//       use CCSprite::setUserData 
 class Ship : public CCSprite {
-
+    CCArray *bullets;
 public:
 	CC_SYNTHESIZE(CCPoint, angle, Angle);
 	CC_SYNTHESIZE(int, health, Health);
@@ -19,6 +19,10 @@ public:
   
 	Ship(void);
 	static Ship* createShip(const char* pszFilename);
+
+    // TODO
+    // void update();
+    // void shoot(); ?
 };
 
 #endif;

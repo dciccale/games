@@ -3,6 +3,12 @@
 
 USING_NS_CC;
 
+GameLayer::~GameLayer() {
+    CC_SAFE_RELEASE(shipBullets);
+    CC_SAFE_RELEASE(enemies);
+    CC_SAFE_RELEASE(enemyBullets);
+}
+
 CCScene* GameLayer::scene() {
     CCScene *scene = CCScene::create();
     GameLayer *layer = GameLayer::create();
@@ -29,17 +35,14 @@ bool GameLayer::init() {
 	CCSize shipSize = ship->getTextureRect().size;
 	ship->setPosition(ccp(shipSize.width / 2, (screenSize.height - shipSize.height) / 2));
 	
-	// TODO: release in destructor
 	shipBullets = new CCArray();
-	shipBullets->init();
+    shipBullets->retain();
 
-	// TODO: release in destructor
 	enemies = new CCArray();
-	enemies->init();
+	enemies->retain();
 
-	// TODO: release in destructor
 	enemyBullets = new CCArray();
-	enemyBullets->init();
+	enemyBullets->retain();
 
 	this->setTouchEnabled(true);
 	this->schedule(schedule_selector(GameLayer::update));    
@@ -103,6 +106,21 @@ void GameLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *event) {
 	}
 }
 
+void GameLayer::updateHealth() {
+	if (ship->getHealth() > 0) {
+        float x = ship->getPositionX() + CCRANDOM_MINUS1_1() * (10.f - 5.0f);
+        float y = ship->getPositionY() + CCRANDOM_MINUS1_1() * (10.f - 5.0f);
+       
+        ship->setPosition(ccp(x, y));
+        ship->setHealth(ship->getHealth() - 1);
+
+	} else if (ship->getHealth() <= 0) {
+        // TODO: Implement game over state
+        // for the moment put a break point here (LOL)
+        CCLog("Game over");
+    }
+}
+
 void GameLayer::updateShip() {
 	// check ship position (keep it on the screen!)
 	CCSize shipSize = ship->getTextureRect().size;
@@ -132,15 +150,19 @@ void GameLayer::updateShip() {
 		CCARRAY_FOREACH(enemies, en) {
 			Ship *enemy = dynamic_cast<Ship*>(en);
 			if (enemy->boundingBox().containsPoint(bullet->getPosition())) {
-				enemy->setScale(0.75f);
-				enemy->setHealth(enemy->getHealth() - 1);
+                CCLog("Hit an enemy");
 
+				enemy->setScale(0.75f);
+				enemy->setOpacity(GLubyte(120));
+                enemy->setHealth(enemy->getHealth() - 1);
+                
 				if (enemy->getHealth() < 0) {
 					enemies->removeObject(enemy);
 					this->removeChild(enemy);
 				}
 			} else {
 				enemy->setScale(1.0f);
+                enemy->setOpacity(GLubyte(255));
 			}
 		}
 
@@ -148,14 +170,6 @@ void GameLayer::updateShip() {
 			shipBullets->removeObject(bullet);
 			this->removeChild(bullet);
 		}
-	}
-
-	// check health
-	if (ship->getHealth() > 0) {
-		ship->setHealth(ship->getHealth() - 1);
-	} else if (ship->getHealth() < 0) {
-		ship->setHealth(0);
-		// game over ...
 	}
 }
 
@@ -178,12 +192,13 @@ void GameLayer::updateEnemies() {
 		enemy->setAngle(ccp(angle.x, angle.y + speed.y));
 
 
-		if (ship->boundingBox().containsPoint(enemy->getPosition())) {
-			ship->setHealth(ship->getHealth() - 1);
+		if (enemy->boundingBox().containsPoint(ship->getPosition())) {
+            CCLog("Hit by an enemy");
+            this->updateHealth();
 		}
 		if (pos.x < (w * -1)) {
+            this->removeChild(enemy);
 			enemies->removeObject(enemy);
-			break;
 		}
 	}
 
@@ -195,8 +210,9 @@ void GameLayer::updateEnemies() {
 		bullet->setPositionX(bullet->getPositionX() - bullet->getVelocity().x);
 
 		if (ship->boundingBox().containsPoint(bullet->getPosition())) {
-			ship->setHealth(ship->getHealth() - 1);
-		}
+		    CCLog("Hit by a bullet");
+            this->updateHealth();
+        }
 		
 		if (bullet->getPositionX() < -5) {
 			enemyBullets->removeObject(bullet);
@@ -209,6 +225,9 @@ void GameLayer::updateEnemies() {
 void GameLayer::addEnemies() {
 	
 	if (enemies->count() < 10) {
+
+        srand(time(0));
+
 		float w1 = screenSize.width / 2;
 		float h1 = screenSize.height / 2;
 		
@@ -230,11 +249,11 @@ void GameLayer::addEnemies() {
 		}
 
 		float vx, vy;
-		vx = 0.2f + CCRANDOM_0_1() * (0.5f - 0.2f);
+		vx = 0.5f + CCRANDOM_0_1() * (0.5f - 0.1f);
 		vy = (CCRANDOM_0_1() * 1.0f < 1.0f) ? - 0.15f : 0.15f;
 
 		enemy->setAngle(ccp(0, 0));
-		enemy->setRange(ccp(2, 2));
+        enemy->setRange(ccp(0, 2.0 + CCRANDOM_0_1() * (10.0 - 2.0)));
 		enemy->setSpeed(ccp(0.15f, 0.15f));
 		enemy->setVelocity(ccp(vx, vy));
 		
@@ -249,7 +268,7 @@ void GameLayer::addEnemies() {
 
 		for (int i = 0; i < n; ++i) {
 			Bullet *bullet = Bullet::createBullet();
-			bullet->setVelocity(ccp(1.0 + CCRANDOM_0_1() * 1.0 - 0.5, 0));
+			bullet->setVelocity(ccp(1.0 + CCRANDOM_0_1() * 1.5 - 0.5, 0));
 			bullet->setPosition(ccp(enemy->getPositionX() - w2, enemy->getPositionY()));
 
 			enemyBullets->addObject(bullet);
@@ -260,7 +279,6 @@ void GameLayer::addEnemies() {
 }
 
 void GameLayer::update(float dt) {
-
 	background->scroll();
 	this->updateShip();
 

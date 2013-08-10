@@ -23,6 +23,7 @@ class GameLayer : public CCLayer {
 	time_t origTime;
 
 public:
+    ~GameLayer();
     virtual bool init();  
     static cocos2d::CCScene* scene();
     CREATE_FUNC(GameLayer);
@@ -32,6 +33,7 @@ public:
 	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *event);
 
 	void updateShip();
+    void updateHealth();
 	
 	void addEnemies();
 	void updateEnemies();
