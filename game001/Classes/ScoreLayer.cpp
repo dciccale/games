@@ -2,7 +2,8 @@
 
 USING_NS_CC;
 
-ScoreLayer::ScoreLayer() {
+ScoreLayer::ScoreLayer()
+{
     _score = 0;
     _interval = 1.0f;
     this->updateText();
