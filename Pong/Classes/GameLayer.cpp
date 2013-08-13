@@ -95,6 +95,7 @@ void GameLayer::update(float dt) {
         return;
     }
 
+
     float x = paddleTop->getPositionX();
     if (x < 50) {
         x = 50;
@@ -196,7 +197,6 @@ void GameLayer::resetGame() {
 void GameLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *event) {
     CCTouch *touch = (CCTouch*) pTouches->anyObject();
     if (touch) {
-    
         if (!running) {
             CCSequence *sequence = CCSequence::createWithTwoActions(
                 (CCFiniteTimeAction *) fadeOut->copy()->autorelease(),
