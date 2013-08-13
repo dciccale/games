@@ -1,5 +1,4 @@
 #include "GameLayer.h"
-#include "Utils.h"
 
 USING_NS_CC;
 
@@ -93,26 +92,6 @@ void GameLayer::update(float dt) {
         return;
     }
 
-    POINT point;
-    if (GetCursorPos(&point)) {
-        int x = point.x;
-        int y = point.y;
-        int px, py;
-        utils::positionInWindow(CCEGLView::sharedOpenGLView()->getHWnd(), &px, &py);
-        x -= px;
-        // y -= py;
-        y -= CCDirector::sharedDirector()->getWinSize().height;
-        y = abs(y);
-
-        if (x < 50) {
-            x = 50;
-        } else if (x > screenSize.width - 50) {
-            x = screenSize.width - 50;
-        }
-        paddleTop->setPositionX(x);
-        paddleBot->setPositionX(x);
-    }
-
     // move ball
     ball->setPositionX(ball->getPositionX() + ball->getVelocity().x);
     ball->setPositionY(ball->getPositionY() + ball->getVelocity().y);
@@ -186,14 +165,27 @@ void GameLayer::resetGame() {
 void GameLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *event) {
     CCTouch *touch = (CCTouch*) pTouches->anyObject();
     if (touch) {
-    
         if (!running) {
             CCSequence *sequence = CCSequence::createWithTwoActions(
                 (CCFiniteTimeAction *) fadeOut->copy()->autorelease(),
                 CCCallFuncN::create(this, callfuncN_selector(GameLayer::fadeOutDone)));
             messageLabel->runAction(sequence);
+        } else {
+            float x = touch->getLocation().x;
+            paddleTop->setPositionX(x);
+            paddleBot->setPositionX(x);
         }
 
+    }
+}
+
+void GameLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *event) {
+    CCTouch *touch = (CCTouch*) pTouches->anyObject();
+    if (touch && running) {
+            float x = touch->getLocation().x;
+            paddleTop->setPositionX(x);
+            paddleBot->setPositionX(x);
+        
     }
 }
 

@@ -204,7 +204,6 @@
 		9219EDF717BA9C0800E061C5 /* Ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9219EDED17BA9C0800E061C5 /* Ball.cpp */; };
 		9219EDF917BA9C0800E061C5 /* GameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9219EDF117BA9C0800E061C5 /* GameLayer.cpp */; };
 		9219EDFA17BA9C0800E061C5 /* Paddle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9219EDF317BA9C0800E061C5 /* Paddle.cpp */; };
-		9219EDFB17BA9C0800E061C5 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9219EDF517BA9C0800E061C5 /* Utils.cpp */; };
 		9219EDFF17BA9C1000E061C5 /* visitor_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 9219EDFC17BA9C1000E061C5 /* visitor_0.png */; };
 		9219EE0017BA9C1000E061C5 /* visitor.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 9219EDFD17BA9C1000E061C5 /* visitor.fnt */; };
 		9219EE0117BA9C1000E061C5 /* visitor1.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9219EDFE17BA9C1000E061C5 /* visitor1.ttf */; };
@@ -646,8 +645,6 @@
 		9219EDF217BA9C0800E061C5 /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameLayer.h; path = ../Classes/GameLayer.h; sourceTree = "<group>"; };
 		9219EDF317BA9C0800E061C5 /* Paddle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Paddle.cpp; path = ../Classes/Paddle.cpp; sourceTree = "<group>"; };
 		9219EDF417BA9C0800E061C5 /* Paddle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Paddle.h; path = ../Classes/Paddle.h; sourceTree = "<group>"; };
-		9219EDF517BA9C0800E061C5 /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utils.cpp; path = ../Classes/Utils.cpp; sourceTree = "<group>"; };
-		9219EDF617BA9C0800E061C5 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = ../Classes/Utils.h; sourceTree = "<group>"; };
 		9219EDFC17BA9C1000E061C5 /* visitor_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visitor_0.png; sourceTree = "<group>"; };
 		9219EDFD17BA9C1000E061C5 /* visitor.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = visitor.fnt; sourceTree = "<group>"; };
 		9219EDFE17BA9C1000E061C5 /* visitor1.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = visitor1.ttf; sourceTree = "<group>"; };
@@ -1190,8 +1187,6 @@
 				9219EDF217BA9C0800E061C5 /* GameLayer.h */,
 				9219EDF317BA9C0800E061C5 /* Paddle.cpp */,
 				9219EDF417BA9C0800E061C5 /* Paddle.h */,
-				9219EDF517BA9C0800E061C5 /* Utils.cpp */,
-				9219EDF617BA9C0800E061C5 /* Utils.h */,
 				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
 				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
 			);
@@ -1785,7 +1780,6 @@
 				9219EDF717BA9C0800E061C5 /* Ball.cpp in Sources */,
 				9219EDF917BA9C0800E061C5 /* GameLayer.cpp in Sources */,
 				9219EDFA17BA9C0800E061C5 /* Paddle.cpp in Sources */,
-				9219EDFB17BA9C0800E061C5 /* Utils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

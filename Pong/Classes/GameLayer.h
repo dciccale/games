@@ -40,6 +40,7 @@ public:
     void fadeOutDone(CCNode *pSender);
     void updateScore();
     virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *event);
+    virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *event);
 };
 
 #endif
