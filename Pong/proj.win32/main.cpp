@@ -15,7 +15,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     // create the application instance
     AppDelegate app;
     CCEGLView* eglView = CCEGLView::sharedOpenGLView();
-    eglView->setViewName("SkyDefense");
-    eglView->setFrameSize(800, 640);
+    eglView->setViewName("Pong");
+    eglView->setFrameSize(320, 480);
     return CCApplication::sharedApplication()->run();
 }

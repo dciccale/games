@@ -261,14 +261,14 @@ void GameLayer::addEnemies() {
 		this->addChild(enemy);
 
 		// add bullets 
-		int n = 3.0 + CCRANDOM_0_1() * 5.0f - 2.0f;
+		int n = 10.0 + CCRANDOM_0_1() * 25.0f - 10.0f;
 		if (n < 3) {
 			n = 3;
 		}
 
 		for (int i = 0; i < n; ++i) {
 			Bullet *bullet = Bullet::createBullet();
-			bullet->setVelocity(ccp(1.0 + CCRANDOM_0_1() * 1.5 - 0.5, 0));
+			bullet->setVelocity(ccp(10.0 + CCRANDOM_0_1() * 5.0 - 5.0, 0));
 			bullet->setPosition(ccp(enemy->getPositionX() - w2, enemy->getPositionY()));
 
 			enemyBullets->addObject(bullet);
