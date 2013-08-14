@@ -7,11 +7,9 @@ USING_NS_CC;
 class Ball : public CCSprite {
 
 public:
-    CC_SYNTHESIZE(float, radius, Radius);
     CC_SYNTHESIZE(CCPoint, velocity, Velocity);
     Ball();
-    static Ball* createBall(float r);
-    virtual void draw();
+    static Ball* createBall(const char *pszFileName);
 };
 
 #endif

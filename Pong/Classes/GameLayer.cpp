@@ -30,6 +30,7 @@ bool GameLayer::init() {
     fadeIn->retain();
 
     scoreLabel = CCLabelBMFont::create("0", "visitor.fnt");
+    scoreLabel->setScale(2.5f);
     scoreLabel->setAnchorPoint(ccp(0.5, 0.5));
     scoreLabel->setPosition(ccp(screenSize.width / 2, screenSize.height / 2));
     scoreLabel->setOpacity(120);
@@ -47,7 +48,7 @@ bool GameLayer::init() {
     paddleTop->setPosition(ccp(screenSize.width / 2, screenSize.height - (paddleTop->getHeight() / 2)));
     this->addChild(paddleTop);
 
-    ball = Ball::createBall(5.0f);
+    ball = Ball::createBall("ball_30x30.png");
     ball->setPosition(ccp(screenSize.width / 2, screenSize.height / 2 - 100));
     this->addChild(ball);
 
@@ -69,15 +70,15 @@ bool GameLayer::checkCollision(Paddle *paddle) {
     float right = paddlePos.x + width;
 
     CCPoint ballPos = ball->getPosition();
-    float rad = ball->getRadius() / 2;
+    float ballTop = ball->boundingBox().size.height/2;
 
 
-    if (ballPos.x - rad >= left && ballPos.x + rad <= right) {
-        if (ballPos.y >= paddlePos.y - height && paddle == paddleTop) {
+    if (ballPos.x >= left && ballPos.x <= right) {
+        if (ballPos.y + ballTop >= paddlePos.y - height && paddle == paddleTop) {
             ret = true;
-        }    
+        }
 
-        if (ballPos.y <= paddlePos.y + height && paddle == paddleBot) {
+        if (ballPos.y - ballTop <= paddlePos.y + height && paddle == paddleBot) {
             ret = true;
         }
     }
@@ -110,50 +111,36 @@ void GameLayer::update(float dt) {
     paddleTop->setPositionX(x);
     paddleBot->setPositionX(paddleTop->getPositionX());
 
-
-    /*
-    POINT point;
-    if (GetCursorPos(&point)) {
-        int x = point.x;
-        int y = point.y;
-        int px, py;
-        utils::positionInWindow(CCEGLView::sharedOpenGLView()->getHWnd(), &px, &py);
-        x -= px;
-        // y -= py;
-        y -= CCDirector::sharedDirector()->getWinSize().height;
-        y = abs(y);
-
-        
-        paddleTop->setPositionX(x);
-        paddleBot->setPositionX(x);
-    }
-    */
-
     // move ball
     ball->setPositionX(ball->getPositionX() + ball->getVelocity().x);
     ball->setPositionY(ball->getPositionY() + ball->getVelocity().y);
+    float ballWidth = ball->boundingBox().size.width;
+    float ballHeight = ball->boundingBox().size.height;
+
 
     // check paddle bounds
     if (this->checkCollision(paddleTop)) {
         _sharedEngine->playEffect("pong.wav");
         ball->setVelocity(ccp(ball->getVelocity().x, ball->getVelocity().y * -1));
-        ball->setPositionY(paddleTop->getPositionY() - paddleTop->getHeight() / 2);
+        ball->setPositionY(paddleTop->getPositionY() - paddleTop->getHeight() / 2 - (ballHeight / 2));
         this->updateScore();
-
     } 
     if (this->checkCollision(paddleBot)) {
         _sharedEngine->playEffect("pong.wav");
         ball->setVelocity(ccp(ball->getVelocity().x, ball->getVelocity().y * -1));
-        ball->setPositionY(paddleBot->getPositionY() + paddleBot->getHeight() / 2);
+        ball->setPositionY(paddleBot->getPositionY() + paddleBot->getHeight() / 2 + (ballHeight / 2));
         this->updateScore();
     }
 
     // check screen bounds
-    float l = ball->getRadius() / 2;
-    float r = screenSize.width - (ball->getRadius() / 2);
-    float t = screenSize.height - (ball->getRadius() / 2);
-    float b = ball->getRadius() / 2;
+    float l = ballWidth;
+    float r = screenSize.width - ballWidth/2;
+    float t = screenSize.height;
+    float b = 0.0f;
 
+    /*sprintf(text, "%f\n", ball->boundingBox().size.width);
+    CCLOG(text);*/
+    
     if (ball->getPositionX() < l) {
         ball->setPositionX(l);
         ball->setVelocity(ccp(ball->getVelocity().x * -1, ball->getVelocity().y));
@@ -240,4 +227,3 @@ void GameLayer::fadeInDone(CCNode *pSender) {
     running = false;
     scoreLabel->setVisible(false);
 }
-

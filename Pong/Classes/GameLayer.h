@@ -21,6 +21,7 @@ class GameLayer : public CCLayer {
 
     bool running;
     int score;
+    char text[32];
 
     CCFadeOut *fadeOut;
     CCFadeIn *fadeIn;
