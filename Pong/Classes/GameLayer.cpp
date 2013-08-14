@@ -53,6 +53,8 @@ bool GameLayer::init() {
 
     this->setTouchEnabled(true);
     this->schedule(schedule_selector(GameLayer::update));
+    
+    _sharedEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
 
     return true;
 }
