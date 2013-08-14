@@ -35,6 +35,7 @@ public:
     CREATE_FUNC(GameLayer);
 
 
+    void initBackground();
     void update(float dt);
     void resetGame();
     void stopGame();

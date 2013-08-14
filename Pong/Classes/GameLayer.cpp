@@ -17,19 +17,8 @@ bool GameLayer::init() {
     running = false;
 
     screenSize = CCDirector::sharedDirector()->getWinSize();
-    
-    // Load the background image sprite and set the position to bottom left side of the screen.
-    CCSprite* background = CCSprite::create("space_background.png");
-    background->setAnchorPoint(ccp(0.0f, 0.0f));
-    background->setPosition(ccp(0.0f, 0.0f));
-    
-    // Scale background to cover the whole window.
-    CCRect bgRect = background->getTextureRect();
-    background->setScaleX(screenSize.width / bgRect.size.width);
-    background->setScaleY(screenSize.height / bgRect.size.height);
-    
-    // Add the background as a child to JumpingGame layer.
-    this->addChild(background, 0);
+
+    this->initBackground();
 
     messageLabel = CCLabelBMFont::create("CLICK TO PLAY", "visitor.fnt");
     messageLabel->setAnchorPoint(ccp(0.5, 0.5));
@@ -71,6 +60,18 @@ bool GameLayer::init() {
     _sharedEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
 
     return true;
+}
+
+void GameLayer::initBackground() {
+    CCSprite* background = CCSprite::create("space_background.png");
+    background->setAnchorPoint(ccp(0.0f, 0.0f));
+    background->setPosition(ccp(0.0f, 0.0f));
+    
+    // scale background to cover the whole window.
+    CCRect bgRect = background->getTextureRect();
+    background->setScaleX(screenSize.width / bgRect.size.width);
+    background->setScaleY(screenSize.height / bgRect.size.height);
+    this->addChild(background, 0);
 }
 
 bool GameLayer::checkCollision(Paddle *paddle) {
