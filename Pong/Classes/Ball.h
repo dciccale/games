@@ -10,6 +10,7 @@ public:
     CC_SYNTHESIZE(CCPoint, velocity, Velocity);
     Ball();
     static Ball* createBall(const char *pszFileName);
+    void bounce(float posY);
 };
 
 #endif

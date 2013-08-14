@@ -15,6 +15,8 @@ USING_NS_CC;
 class GameLayer : public CCLayer {
 
     CCSize screenSize;
+    CCPoint screenCenter;
+    CCPoint gameSpeed;
     CCLabelBMFont *messageLabel;
     CCLabelBMFont *scoreLabel;
     CocosDenshion::SimpleAudioEngine *_sharedEngine;
@@ -36,6 +38,11 @@ public:
 
 
     void initBackground();
+    void initMessageLabel();
+    void initScoreLabel();
+    void initPaddles();
+    void initBall();
+    void initAudio();
     void update(float dt);
     void resetGame();
     void stopGame();

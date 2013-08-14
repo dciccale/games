@@ -12,8 +12,7 @@ public:
     CC_SYNTHESIZE(float, height, Height);
 
     Paddle();
-    static Paddle* createPaddle(float width, float height);
-    virtual void draw();
+    static Paddle* createPaddle(const char *pszFileName);
 };
 
 #endif

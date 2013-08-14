@@ -17,47 +17,23 @@ bool GameLayer::init() {
     running = false;
 
     screenSize = CCDirector::sharedDirector()->getWinSize();
+    screenCenter = ccp(screenSize.width/2, screenSize.height/2);
 
     this->initBackground();
-
-    messageLabel = CCLabelBMFont::create("CLICK TO PLAY", "visitor.fnt");
-    messageLabel->setAnchorPoint(ccp(0.5, 0.5));
-    messageLabel->setPosition(ccp(screenSize.width / 2, screenSize.height / 2));
-    this->addChild(messageLabel);
-
+    this->initMessageLabel();
+    this->initScoreLabel();
+    this->initPaddles();
+    this->initBall();
+    this->initAudio();
+    
     fadeOut = CCFadeOut::create(0.75f);
     fadeOut->retain();
-
+    
     fadeIn = CCFadeIn::create(0.75f);
     fadeIn->retain();
-
-    scoreLabel = CCLabelBMFont::create("0", "visitor.fnt");
-    scoreLabel->setScale(3.5f);
-    scoreLabel->setAnchorPoint(ccp(0.5, 0.5));
-    scoreLabel->setPosition(ccp(screenSize.width / 2, screenSize.height / 2));
-    scoreLabel->setOpacity(100);
-    scoreLabel->setVisible(false);
-    this->addChild(scoreLabel);
-
-    float pWidth = screenSize.width/5;
-    float pHeight = screenSize.height/30;
     
-    paddleBot = Paddle::createPaddle(pWidth, pHeight);
-    paddleBot->setPosition(ccp(screenSize.width / 2, paddleBot->getHeight() / 2));
-    this->addChild(paddleBot);
-     
-    paddleTop = Paddle::createPaddle(pWidth, pHeight);
-    paddleTop->setPosition(ccp(screenSize.width / 2, screenSize.height - (paddleTop->getHeight() / 2)));
-    this->addChild(paddleTop);
-
-    ball = Ball::createBall("ball_30x30.png");
-    ball->setPosition(ccp(screenSize.width / 2, screenSize.height / 2 - 100));
-    this->addChild(ball);
-
     this->setTouchEnabled(true);
-    this->schedule(schedule_selector(GameLayer::update));
-    
-    _sharedEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
+    this->scheduleUpdate();
 
     return true;
 }
@@ -72,6 +48,60 @@ void GameLayer::initBackground() {
     background->setScaleX(screenSize.width / bgRect.size.width);
     background->setScaleY(screenSize.height / bgRect.size.height);
     this->addChild(background, 0);
+}
+
+void GameLayer::initMessageLabel() {
+    messageLabel = CCLabelBMFont::create("CLICK TO PLAY", "visitor.fnt");
+    messageLabel->setScale(2.0f);
+    messageLabel->setAnchorPoint(ccp(0.5, 0.5));
+    messageLabel->setPosition(ccp(screenCenter.x, screenCenter.y));
+    this->addChild(messageLabel);
+}
+
+void GameLayer::initScoreLabel() {
+    scoreLabel = CCLabelBMFont::create("0", "visitor.fnt");
+    scoreLabel->setScale((screenSize.width/screenSize.height)*2);
+    scoreLabel->setAnchorPoint(ccp(0.5, 0.5));
+    scoreLabel->setPosition(ccp(screenCenter.x, screenCenter.y));
+    scoreLabel->setOpacity(100);
+    scoreLabel->setVisible(false);
+    this->addChild(scoreLabel);
+}
+
+void GameLayer::initPaddles() {    
+    paddleBot = Paddle::createPaddle("paddle.png");
+    paddleBot->setScale(screenSize.width/(182.0f*4));
+    paddleBot->setHeight(paddleBot->boundingBox().size.height);
+    paddleBot->setWidth(paddleBot->boundingBox().size.width);
+    paddleBot->setPosition(ccp(screenCenter.x, paddleBot->getHeight() / 2));
+    this->addChild(paddleBot);
+    
+    paddleTop = Paddle::createPaddle("paddle.png");
+    paddleTop->setScale(screenSize.width/(182.0f*4));
+    paddleTop->setHeight(paddleTop->boundingBox().size.height);
+    paddleTop->setWidth(paddleTop->boundingBox().size.width);    paddleTop->setRotation(180.f);
+    paddleTop->setPosition(ccp(screenCenter.x, screenSize.height - (paddleTop->getHeight() / 2)));
+    this->addChild(paddleTop);
+}
+
+void GameLayer::initBall() {
+    ball = Ball::createBall("ball_30x30.png");
+    ball->setPosition(ccp(screenCenter.x, screenCenter.y - 80));
+    
+    // set velocity relative to screen size (slower in small devices, faster in big ones)
+    float vx = screenSize.width - ball->boundingBox().size.width;
+    vx = (vx/ball->boundingBox().size.width) / 4;
+    float vy = screenSize.height - ball->boundingBox().size.height;
+    vy = (vy/ball->boundingBox().size.height) / 6;
+    gameSpeed = ccp(vx, vy);
+    ball->setVelocity(gameSpeed);
+    
+    this->addChild(ball);
+}
+
+void GameLayer::initAudio() {
+    _sharedEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
+    _sharedEngine->preloadEffect("pong.wav");
 }
 
 bool GameLayer::checkCollision(Paddle *paddle) {
@@ -104,17 +134,13 @@ void GameLayer::updateScore() {
     char s[100] = {0};
     sprintf(s, "%i", score);
     scoreLabel->setString(s, true);
-
-
     // CCLog("test: %i ", score % 4 == 0);
-
 }
 
 void GameLayer::update(float dt) {    
     if (!running) {
         return;
     }
-
 
     float x = paddleTop->getPositionX();
     if (x < 50) {
@@ -131,29 +157,24 @@ void GameLayer::update(float dt) {
     float ballWidth = ball->boundingBox().size.width;
     float ballHeight = ball->boundingBox().size.height;
 
-
     // check paddle bounds
     if (this->checkCollision(paddleTop)) {
-        _sharedEngine->playEffect("pong.wav");
-        ball->setVelocity(ccp(ball->getVelocity().x, ball->getVelocity().y * -1));
-        ball->setPositionY(paddleTop->getPositionY() - paddleTop->getHeight() / 2 - (ballHeight / 2));
+        float posY = paddleTop->getPositionY() - paddleTop->getHeight() / 2 - (ballHeight / 2);
+        ball->bounce(posY);
         this->updateScore();
-    } 
+    }
+    
     if (this->checkCollision(paddleBot)) {
-        _sharedEngine->playEffect("pong.wav");
-        ball->setVelocity(ccp(ball->getVelocity().x, ball->getVelocity().y * -1));
-        ball->setPositionY(paddleBot->getPositionY() + paddleBot->getHeight() / 2 + (ballHeight / 2));
+        float posY = paddleBot->getPositionY() + paddleBot->getHeight() / 2 + (ballHeight / 2);
+        ball->bounce(posY);
         this->updateScore();
     }
 
     // check screen bounds
     float l = ballWidth/2;
-    float r = screenSize.width - ballWidth/2;
+    float r = screenSize.width - l;
     float t = screenSize.height;
     float b = 0.0f;
-
-    /*sprintf(text, "%f\n", ball->boundingBox().size.width);
-    CCLOG(text);*/
     
     if (ball->getPositionX() < l) {
         ball->setPositionX(l);
@@ -187,7 +208,7 @@ void GameLayer::stopGame() {
      
       // reset ball
      ball->setVisible(false);
-     ball->setVelocity(ccp(4, 2));
+     ball->setVelocity(gameSpeed);
      ball->setPosition(ccp(screenSize.width / 2, (screenSize.height / 2) - 100));
 
      paddleTop->setPositionX(screenSize.width / 2);
