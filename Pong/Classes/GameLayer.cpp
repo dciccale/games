@@ -90,12 +90,44 @@ void GameLayer::updateScore() {
     sprintf(s, "%i", score);
     scoreLabel->setString(s, true);
 
+
+    // CCLog("test: %i ", score % 4 == 0);
+
 }
 
 void GameLayer::update(float dt) {    
     if (!running) {
         return;
     }
+
+
+    float x = paddleTop->getPositionX();
+    if (x < 50) {
+        x = 50;
+    } else if (x > screenSize.width - 50) {
+        x = screenSize.width - 50;
+    }
+    paddleTop->setPositionX(x);
+    paddleBot->setPositionX(paddleTop->getPositionX());
+
+
+    /*
+    POINT point;
+    if (GetCursorPos(&point)) {
+        int x = point.x;
+        int y = point.y;
+        int px, py;
+        utils::positionInWindow(CCEGLView::sharedOpenGLView()->getHWnd(), &px, &py);
+        x -= px;
+        // y -= py;
+        y -= CCDirector::sharedDirector()->getWinSize().height;
+        y = abs(y);
+
+        
+        paddleTop->setPositionX(x);
+        paddleBot->setPositionX(x);
+    }
+    */
 
     // move ball
     ball->setPositionX(ball->getPositionX() + ball->getVelocity().x);
@@ -189,10 +221,9 @@ void GameLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *event) {
 void GameLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *event) {
     CCTouch *touch = (CCTouch*) pTouches->anyObject();
     if (touch && running) {
-            float x = touch->getLocation().x;
-            paddleTop->setPositionX(x);
-            paddleBot->setPositionX(x);
-        
+        float x = touch->getLocation().x;
+        paddleTop->setPositionX(x);
+        paddleBot->setPositionX(x);
     }
 }
 
