@@ -209,6 +209,7 @@
 		925FE16617BBCD190052256F /* pong.wav in Resources */ = {isa = PBXBuildFile; fileRef = 925FE16517BBCD190052256F /* pong.wav */; };
 		92DE993017BBDF0500273F5B /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 92DE992F17BBDF0500273F5B /* ball.png */; };
 		92DE993417BBE00C00273F5B /* ball_30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = 92DE993317BBE00C00273F5B /* ball_30x30.png */; };
+		92DE993617BC012600273F5B /* space_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 92DE993517BC012600273F5B /* space_background.png */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712461292920000B8313A /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB212928DE900B8313A /* libxml2.dylib */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -646,6 +647,7 @@
 		925FE16517BBCD190052256F /* pong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pong.wav; sourceTree = "<group>"; };
 		92DE992F17BBDF0500273F5B /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
 		92DE993317BBE00C00273F5B /* ball_30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball_30x30.png; sourceTree = "<group>"; };
+		92DE993517BC012600273F5B /* space_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_background.png; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB212928DE900B8313A /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -1478,6 +1480,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				92DE993517BC012600273F5B /* space_background.png */,
 				92DE993317BBE00C00273F5B /* ball_30x30.png */,
 				92DE992F17BBDF0500273F5B /* ball.png */,
 				925FE16517BBCD190052256F /* pong.wav */,
@@ -1569,6 +1572,7 @@
 				925FE16617BBCD190052256F /* pong.wav in Resources */,
 				92DE993017BBDF0500273F5B /* ball.png in Resources */,
 				92DE993417BBE00C00273F5B /* ball_30x30.png in Resources */,
+				92DE993617BC012600273F5B /* space_background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

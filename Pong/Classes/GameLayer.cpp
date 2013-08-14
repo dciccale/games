@@ -17,6 +17,19 @@ bool GameLayer::init() {
     running = false;
 
     screenSize = CCDirector::sharedDirector()->getWinSize();
+    
+    // Load the background image sprite and set the position to bottom left side of the screen.
+    CCSprite* background = CCSprite::create("space_background.png");
+    background->setAnchorPoint(ccp(0.0f, 0.0f));
+    background->setPosition(ccp(0.0f, 0.0f));
+    
+    // Scale background to cover the whole window.
+    CCRect bgRect = background->getTextureRect();
+    background->setScaleX(screenSize.width / bgRect.size.width);
+    background->setScaleY(screenSize.height / bgRect.size.height);
+    
+    // Add the background as a child to JumpingGame layer.
+    this->addChild(background, 0);
 
     messageLabel = CCLabelBMFont::create("CLICK TO PLAY", "visitor.fnt");
     messageLabel->setAnchorPoint(ccp(0.5, 0.5));
@@ -30,10 +43,10 @@ bool GameLayer::init() {
     fadeIn->retain();
 
     scoreLabel = CCLabelBMFont::create("0", "visitor.fnt");
-    scoreLabel->setScale(2.5f);
+    scoreLabel->setScale(3.5f);
     scoreLabel->setAnchorPoint(ccp(0.5, 0.5));
     scoreLabel->setPosition(ccp(screenSize.width / 2, screenSize.height / 2));
-    scoreLabel->setOpacity(120);
+    scoreLabel->setOpacity(100);
     scoreLabel->setVisible(false);
     this->addChild(scoreLabel);
 
@@ -133,7 +146,7 @@ void GameLayer::update(float dt) {
     }
 
     // check screen bounds
-    float l = ballWidth;
+    float l = ballWidth/2;
     float r = screenSize.width - ballWidth/2;
     float t = screenSize.height;
     float b = 0.0f;
