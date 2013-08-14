@@ -98,12 +98,14 @@ void GameLayer::update(float dt) {
 
     // check paddle bounds
     if (this->checkCollision(paddleTop)) {
+        _sharedEngine->playEffect("pong.wav");
         ball->setVelocity(ccp(ball->getVelocity().x, ball->getVelocity().y * -1));
         ball->setPositionY(paddleTop->getPositionY() - paddleTop->getHeight() / 2);
         this->updateScore();
 
     } 
     if (this->checkCollision(paddleBot)) {
+        _sharedEngine->playEffect("pong.wav");
         ball->setVelocity(ccp(ball->getVelocity().x, ball->getVelocity().y * -1));
         ball->setPositionY(paddleBot->getPositionY() + paddleBot->getHeight() / 2);
         this->updateScore();

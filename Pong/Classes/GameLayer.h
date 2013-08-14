@@ -2,6 +2,7 @@
 #define __GAMELAYER_H__
 
 #include "cocos2d.h"
+#include "SimpleAudioEngine.h"
 #include "Paddle.h"
 #include "Ball.h"
 #include <string>
@@ -16,6 +17,7 @@ class GameLayer : public CCLayer {
     CCSize screenSize;
     CCLabelBMFont *messageLabel;
     CCLabelBMFont *scoreLabel;
+    CocosDenshion::SimpleAudioEngine *_sharedEngine;
 
     bool running;
     int score;
