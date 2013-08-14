@@ -36,11 +36,14 @@ bool GameLayer::init() {
     scoreLabel->setVisible(false);
     this->addChild(scoreLabel);
 
-    paddleBot = Paddle::createPaddle(100.0f, 5.0f);
+    float pWidth = screenSize.width/5;
+    float pHeight = screenSize.height/30;
+    
+    paddleBot = Paddle::createPaddle(pWidth, pHeight);
     paddleBot->setPosition(ccp(screenSize.width / 2, paddleBot->getHeight() / 2));
     this->addChild(paddleBot);
      
-    paddleTop = Paddle::createPaddle(100.0f, 5.0f);
+    paddleTop = Paddle::createPaddle(pWidth, pHeight);
     paddleTop->setPosition(ccp(screenSize.width / 2, screenSize.height - (paddleTop->getHeight() / 2)));
     this->addChild(paddleTop);
 
