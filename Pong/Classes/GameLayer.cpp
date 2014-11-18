@@ -25,13 +25,13 @@ bool GameLayer::init() {
     this->initPaddles();
     this->initBall();
     this->initAudio();
-    
+
     fadeOut = CCFadeOut::create(0.75f);
     fadeOut->retain();
-    
+
     fadeIn = CCFadeIn::create(0.75f);
     fadeIn->retain();
-    
+
     this->setTouchEnabled(true);
     this->scheduleUpdate();
 
@@ -42,7 +42,7 @@ void GameLayer::initBackground() {
     CCSprite* background = CCSprite::create("space_background.png");
     background->setAnchorPoint(ccp(0.0f, 0.0f));
     background->setPosition(ccp(0.0f, 0.0f));
-    
+
     // scale background to cover the whole window.
     CCRect bgRect = background->getTextureRect();
     background->setScaleX(screenSize.width / bgRect.size.width);
@@ -68,14 +68,14 @@ void GameLayer::initScoreLabel() {
     this->addChild(scoreLabel);
 }
 
-void GameLayer::initPaddles() {    
+void GameLayer::initPaddles() {
     paddleBot = Paddle::createPaddle("paddle.png");
     paddleBot->setScale(screenSize.width/(182.0f*4));
     paddleBot->setHeight(paddleBot->boundingBox().size.height);
     paddleBot->setWidth(paddleBot->boundingBox().size.width);
     paddleBot->setPosition(ccp(screenCenter.x, paddleBot->getHeight() / 2));
     this->addChild(paddleBot);
-    
+
     paddleTop = Paddle::createPaddle("paddle.png");
     paddleTop->setScale(screenSize.width/(182.0f*4));
     paddleTop->setHeight(paddleTop->boundingBox().size.height);
@@ -87,7 +87,7 @@ void GameLayer::initPaddles() {
 void GameLayer::initBall() {
     ball = Ball::createBall("ball_30x30.png");
     ball->setPosition(ccp(screenCenter.x, screenCenter.y - 80));
-    
+
     // set velocity relative to screen size (slower in small devices, faster in big ones)
     float vx = screenSize.width - ball->boundingBox().size.width;
     vx = (vx/ball->boundingBox().size.width) / 4;
@@ -95,7 +95,7 @@ void GameLayer::initBall() {
     vy = (vy/ball->boundingBox().size.height) / 6;
     gameSpeed = ccp(vx, vy);
     ball->setVelocity(gameSpeed);
-    
+
     this->addChild(ball);
 }
 
@@ -137,7 +137,7 @@ void GameLayer::updateScore() {
     // CCLog("test: %i ", score % 4 == 0);
 }
 
-void GameLayer::update(float dt) {    
+void GameLayer::update(float dt) {
     if (!running) {
         return;
     }
@@ -163,7 +163,7 @@ void GameLayer::update(float dt) {
         ball->bounce(posY);
         this->updateScore();
     }
-    
+
     if (this->checkCollision(paddleBot)) {
         float posY = paddleBot->getPositionY() + paddleBot->getHeight() / 2 + (ballHeight / 2);
         ball->bounce(posY);
@@ -175,7 +175,7 @@ void GameLayer::update(float dt) {
     float r = screenSize.width - l;
     float t = screenSize.height;
     float b = 0.0f;
-    
+
     if (ball->getPositionX() < l) {
         ball->setPositionX(l);
         ball->setVelocity(ccp(ball->getVelocity().x * -1, ball->getVelocity().y));
@@ -190,22 +190,22 @@ void GameLayer::update(float dt) {
         this->stopGame();
     } else if (ball->getPositionY() > t) {
         ball->setPositionY(t);
-        ball->setVelocity(ccp(ball->getVelocity().x, ball->getVelocity().y * -1)); 
+        ball->setVelocity(ccp(ball->getVelocity().x, ball->getVelocity().y * -1));
         this->stopGame();
     }
-    
+
 }
 
 void GameLayer::stopGame() {
      running = false;
-     
+
      messageLabel->setString("GAME OVER");
      CCSequence *sequence = CCSequence::createWithTwoActions(
         (CCFiniteTimeAction *) fadeIn->copy()->autorelease(),
         CCCallFuncN::create(this, callfuncN_selector(GameLayer::fadeInDone))
       );
       messageLabel->runAction(sequence);
-     
+
       // reset ball
      ball->setVisible(false);
      ball->setVelocity(gameSpeed);
